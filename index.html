@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade - Blockchain</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <div>
+                <h1>CRUD Blockchain</h1>
+            </div>
+            <div style="text-align: right;">
+                <button onclick="startNetwork()" class="action-btn admin-btn">INICIAR REDE</button>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab('operations')">Operações de Nó</button>
+            <button class="tab-btn" onclick="openTab('view')">Visualizar</button>
+        </div>
+
+        <div id="operations" class="tab-content active">
+
+            <div class="section-box">
+                <h3>Painel do Nó</h3>
+                <label>Selecionar Nó:</label>
+                <select id="txNode">
+                    <option value="http://localhost:5000">Nó 5000</option>
+                    <option value="http://localhost:5001">Nó 5001</option>
+                    <option value="http://localhost:5002">Nó 5002</option>
+                </select>
+
+                <div>
+                    <h4 style="margin-top:0; color:#555;">Transação</h4>
+                    <div style="display:flex; gap:20px;">
+                        <div style="flex:1;">
+                            <label>Remetente</label>
+                            <input type="text" id="sender" placeholder="Ex: Alice">
+                        </div>
+                        <div style="flex:1;">
+                            <label>Destinatário</label>
+                            <input type="text" id="recipient" placeholder="Ex: Bob">
+                        </div>
+                    </div>
+                    <label>Valor</label>
+                    <input type="number" id="amount" placeholder="Ex: 10" value="10">
+                    <label>Conteúdo Adicional (JSON/Texto)</label>
+                    <textarea id="content" rows="2"></textarea>
+                </div>
+
+                <button class="action-btn" style="background-color: #f39c12;" onclick="mineBlock()"> Minerar </button>
+            </div>
+        </div>
+
+        <div id="view" class="tab-content">
+            <div style="display:flex; align-items:flex-end; gap: 15px; margin-bottom: 20px;">
+                <div style="flex-grow: 1;">
+                    <label style="margin-bottom: 5px;">Ler dados do Nó:</label>
+                    <select id="viewNode" onchange="loadChain()" style="margin-bottom: 0;">
+                        <option value="http://localhost:5000">Nó 5000</option>
+                        <option value="http://localhost:5001">Nó 5001</option>
+                        <option value="http://localhost:5002">Nó 5002</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="chainContainer" style="margin-top:30px;">
+                <p style="color:#888; text-align:center;">Clique em Atualizar para carregar a cadeia.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
