@@ -19,7 +19,6 @@ def mine():
     blockchain.new_transaction(sender="0", recipient=node_identifier, amount=1, content="Recompensa Mineracao")
     block_timestamp = time.time()
 
-    #Monta pendentes
     candidate_block = {
         'index': len(blockchain.chain) + 1,
         'timestamp': block_timestamp, 
@@ -28,10 +27,9 @@ def mine():
         'previous_hash': blockchain.hash(last_block),
     }
 
-    # Achar o nounce
+
     proof = blockchain.proof_of_work(candidate_block)
 
-    # Add o bloco a cadeia
     previous_hash = blockchain.hash(last_block)
     block = blockchain.new_block(proof, previous_hash, timestamp=block_timestamp)
     block_hash = blockchain.hash(block)
@@ -46,7 +44,7 @@ def mine():
     }
     return jsonify(response), 200
 
-# Adicionar uma nova transação a fila com os dados
+
 @app.route('/transactions/new', methods=['POST'])
 def new_transaction():
     values = request.get_json()
@@ -55,7 +53,7 @@ def new_transaction():
     index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'], values.get('content'))
     return jsonify({'message': f'Transação add ao Bloco {index}'}), 201
 
-#Pegar os dados
+
 @app.route('/chain', methods=['GET'])
 def full_chain():
     chain_data = []
@@ -65,7 +63,7 @@ def full_chain():
         chain_data.append(block_copy)
     return jsonify({'chain': chain_data, 'length': len(chain_data)}), 200
 
-# Avisa a rede de outros nos
+
 @app.route('/nodes/register', methods=['POST'])
 def register_nodes():
     values = request.get_json()
@@ -74,7 +72,7 @@ def register_nodes():
     for node in nodes: blockchain.register_node(node)
     return jsonify({'message': 'Nos adicionados', 'total_nodes': list(blockchain.nodes)}), 201
 
-# Chamado para verificar cadeias
+
 @app.route('/nodes/resolve', methods=['GET'])
 def consensus():
     replaced = blockchain.resolve_conflicts()

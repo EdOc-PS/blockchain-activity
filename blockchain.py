@@ -6,7 +6,7 @@ import requests
 
 class Blockchain:
     def __init__(self):
-        # Cria a cadeia e bloco
+ 
         self.chain = []
         self.current_transactions = []
         self.nodes = set()
@@ -20,7 +20,7 @@ class Blockchain:
             'previous_hash': genesis_prev
         }
         
-        # Procurando nounce
+
         proof = self.proof_of_work(genesis_candidate)
         
         self.new_block(previous_hash=genesis_prev, proof=proof, timestamp=0)
@@ -44,7 +44,6 @@ class Blockchain:
             current_index += 1
         return True
 
-    # regra da Cadeia Mais Longa.
     def resolve_conflicts(self):
         neighbours = self.nodes
         new_chain = None
@@ -71,7 +70,6 @@ class Blockchain:
             return True
         return False
 
-    # pega todas as transaçoes pendentes e cria um novo bloco
     def new_block(self, proof, previous_hash=None, timestamp=None):
         block = {
             'index': len(self.chain) + 1,
@@ -84,7 +82,6 @@ class Blockchain:
         self.chain.append(block)
         return block
 
-    # adiciona transaçao a lista
     def new_transaction(self, sender, recipient, amount, content=None):
         self.current_transactions.append({
             'sender': sender,
@@ -103,7 +100,7 @@ class Blockchain:
         block_string = json.dumps(block, sort_keys=True).encode()
         return hashlib.sha256(block_string).hexdigest()
     
-    # Encontrar um número proof
+   
     def proof_of_work(self, block):
         block['proof'] = 0
         while self.valid_proof(block) is False:
